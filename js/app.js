@@ -40,7 +40,7 @@ $(function () {
     
     setInterval(update_idr_value(), 60000);
     
-    $('[data-toggle="popover"]').popover()
+    $('[data-toggle="tooltip"]').tooltip()
     
     $('.refresh-frame').on('click', function(){
         var iframe = document.getElementById($(this).data('frame-id'));
