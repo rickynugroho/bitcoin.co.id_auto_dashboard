@@ -15,7 +15,7 @@ if($account_info->enable_password_protection === '1' && (!isset($_SESSION["user_
 			?>
 			<div class="col-md-6 col-xs-12">
 				<div class="boxed">
-					<iframe src="https://vip.bitcoin.co.id/chart/<?php echo $key;?>idr" style="width:100%;"></iframe>
+					<iframe id="<?php echo $key;?>idr_iframe" src="https://vip.bitcoin.co.id/chart/<?php echo $key;?>idr" style="width:100%;"></iframe>
 					<input type="hidden" id="qty_<?php echo $key;?>" value="<?php echo $val;?>">
 					<?php echo $val . ' ' . strtoupper($key);?> 
 					&nbsp; X &nbsp; 
@@ -24,7 +24,8 @@ if($account_info->enable_password_protection === '1' && (!isset($_SESSION["user_
 					<span id="times_idr_value_<?php echo $key;?>">(loading...)</span>
 					
 					<div class="float-right">
-						<button type="button" class="btn btn-dark">Transaction List</button>
+						<button type="button" class="btn btn-dark refresh-frame" data-frame-id="<?php echo $key;?>idr_iframe" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Refresh this frame"><span class="oi oi-reload"></span></button>
+						<button type="button" class="btn btn-dark" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Transaction List"><span class="oi oi-clock"></span></button>
 					</div>
 					
 					<div class="clearfix"></div>
