@@ -37,6 +37,8 @@ function btcid_query($method, array $req = array(), $api_key, $secret_key) {
 
 if(isset($_GET['method'])){
     $post_array = isset($_POST) ? $_POST : array();
-    $result = btcid_query($_GET['method'], $post_array,  $api_key, $secret_key);
+    $account_info = $db_config->get('config');
+    $result = btcid_query($_GET['method'], $post_array,  $account_info->api_key, $account_info->secret_key);
     echo json_encode($result);
+    die;
 }

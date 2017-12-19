@@ -4,9 +4,8 @@ $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'CLI';
 $base_url = "http://".$host;
 $base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 
-//Require all file needed
+//Require vendor file
 require_once('vendor/autoload.php');
-require_once('btcid.php');
 
 //Setting up filebase database
 $db_config = new \Filebase\Database([
@@ -23,6 +22,10 @@ $db_config = new \Filebase\Database([
         ]
     ]
 ]);
+
+//Require API file
+//Put here because we need to read some configuration from $db_config and use it on btcid.php
+require_once('btcid.php');
 
 //Routing
 $requestUrl = $_SERVER['REQUEST_URI'];
