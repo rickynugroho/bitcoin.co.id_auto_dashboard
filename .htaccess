@@ -1,0 +1,4 @@
+Options +FollowSymLinks
+RewriteEngine on
+RewriteCond $1 !^(index\.php|^(.*)\.css|^(.*)\.js|js|css)
+RewriteRule ^(.*)$ /bitcoin.co.id_auto_dashboard/index.php/$1 [L]
