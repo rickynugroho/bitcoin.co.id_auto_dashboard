@@ -15,7 +15,7 @@ if($account_info->enable_password_protection === '1' && (!isset($_SESSION["user_
 			?>
 			<div class="col-md-6 col-xs-12">
 				<div class="boxed">
-					<!-- <iframe id="<?php echo $key;?>idr_iframe" src="https://vip.bitcoin.co.id/chart/<?php echo $key;?>idr" style="width:100%;"></iframe> -->
+					<iframe id="<?php echo $key;?>idr_iframe" src="https://vip.bitcoin.co.id/chart/<?php echo $key;?>idr" style="width:100%;"></iframe>
 					<input type="hidden" id="qty_<?php echo $key;?>" value="<?php echo $val;?>">
 					<?php echo $val . ' ' . strtoupper($key);?> 
 					&nbsp; X &nbsp; 
