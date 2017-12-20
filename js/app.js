@@ -11,9 +11,6 @@ $(function () {
         $('#total-asset').val($('#idr-balance').val());
         
         $.each(list_of_currency, function( index, value ) {
-            // console.log( index + ": " + value );
-            // https://vip.bitcoin.co.id/api/btc_idr/ticker
-            
             var request = $.ajax({
                 url: "https://vip.bitcoin.co.id/api/" + value + "_idr/ticker",
                 method: "GET",
@@ -34,8 +31,6 @@ $(function () {
                 alert( "Update " + value + " IDR value failed: " + textStatus );
             });
         });
-        
-        // $('#estimates_asset').html(numberWithCommas(total_asset) + ' IDR');
     }
     
     setInterval(update_idr_value(), 60000);
@@ -68,13 +63,45 @@ $(function () {
         
         request.done(function( msg ) {
             var table_trasnsaction = '<table class="table"><tr><td>Time</td><td>Type</td><td>Price</td><td>' + str_currency_upper + '</td><td>IDR</td></tr>';
+            var stock_fifo = [];
+            var price_fifo = [];
+            var fifo_i = 0;
             
             $.each(msg.return.trades, function( index, value ) {
                 table_trasnsaction += '<tr><td>' + moment.unix(value.trade_time).format("DD MMM YYYY HH:mm:ss") + '</td><td>' + value.type + '</td><td>' + numberWithCommas(value.price) + '</td><td>' + value[str_currency] + '</td><td>' + numberWithCommas((parseFloat(value.price) * parseFloat(value[str_currency])).toFixed(0)) + '</td></tr>';
                 
+                if(value.type == 'buy'){
+                    stock_fifo[fifo_i] = value[str_currency];
+                    price_fifo[fifo_i] = value.price;
+                    fifo_i++;
+                }
+                if(value.type == 'sell'){
+                    var sell_fifo_i = 0;
+                    var sell_stock = value[str_currency];
+                    $.each(stock_fifo, function(index_fifo, value_fifo){
+                        if(sell_stock > 0){
+                            if(sell_stock <= stock_fifo[sell_fifo_i]){
+                                stock_fifo[sell_fifo_i] = parseFloat(stock_fifo[sell_fifo_i]) - parseFloat(sell_stock);
+                                sell_stock = 0;
+                            }else{
+                                stock_fifo[sell_fifo_i] = 0;
+                                sell_stock = parseFloat(sell_stock) - parseFloat(stock_fifo[sell_fifo_i]);
+                            }
+                        }
+                        sell_fifo_i++;
+                    });
+                }
+            });
+            
+            var investment_capital = 0;
+            sell_fifo_i = 0;
+            $.each(stock_fifo, function(index_fifo, value_fifo){
+                investment_capital = parseFloat(investment_capital) + (parseFloat(value_fifo) * parseFloat(price_fifo[sell_fifo_i]));
+                sell_fifo_i++;
             });
             
             table_trasnsaction += '</table>';
+            table_trasnsaction += '<b>Investment Capital: ' + numberWithCommas(investment_capital.toFixed(0)) + ' IDR</b>';
             
             $('#transactionListModal .modal-body').html(table_trasnsaction);
         });
