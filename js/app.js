@@ -52,6 +52,8 @@ $(function () {
         str_currency = str_currency.replace(/_idr/g, "");
         str_currency_upper = str_currency.toUpperCase();
         
+        $('#transactionListModalLabel').html('Transaction List ' + str_currency_upper + ' - IDR');
+        
         $('#transactionListModal .modal-body').html('(loading...)');
         
         var request = $.ajax({
