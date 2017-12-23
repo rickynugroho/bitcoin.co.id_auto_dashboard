@@ -73,6 +73,8 @@ $(function () {
                 table_trasnsaction += '<tr><td>' + moment.unix(value.trade_time).format("DD MMM YYYY HH:mm:ss") + '</td><td>' + value.type + '</td><td>' + numberWithCommas(value.price) + '</td><td>' + value[str_currency] + '</td><td>' + numberWithCommas((parseFloat(value.price) * parseFloat(value[str_currency])).toFixed(0)) + '</td></tr>';
                 
                 if(value.type == 'buy'){
+                    // console.log('Buy: ' + value[str_currency] + ' ' + str_currency + ' x ' + value.price + ' IDR');
+                    
                     stock_fifo[fifo_i] = value[str_currency];
                     price_fifo[fifo_i] = value.price;
                     fifo_i++;
@@ -80,15 +82,21 @@ $(function () {
                 if(value.type == 'sell'){
                     var sell_fifo_i = 0;
                     var sell_stock = value[str_currency];
+                    
+                    // console.log('Sell: ' + value[str_currency] + ' ' + str_currency);
+                    
                     $.each(stock_fifo, function(index_fifo, value_fifo){
                         if(sell_stock > 0){
                             if(sell_stock <= stock_fifo[sell_fifo_i]){
-                                stock_fifo[sell_fifo_i] = parseFloat(stock_fifo[sell_fifo_i]) - parseFloat(sell_stock);
+                                // console.log('Sell 1: ' + stock_fifo[sell_fifo_i] + ' - ' + parseFloat(sell_stock) + ' = ' + (parseFloat(stock_fifo[sell_fifo_i]) - parseFloat(sell_stock)));
+                                stock_fifo[sell_fifo_i] = (parseFloat(stock_fifo[sell_fifo_i]) - parseFloat(sell_stock));
                                 sell_stock = 0;
                             }else{
+                                // console.log('Sell 2: ' + parseFloat(sell_stock) + ' - ' + stock_fifo[sell_fifo_i] + ' = ' + (parseFloat(sell_stock) - parseFloat(stock_fifo[sell_fifo_i])));
+                                sell_stock = (parseFloat(sell_stock) - parseFloat(stock_fifo[sell_fifo_i]));
                                 stock_fifo[sell_fifo_i] = 0;
-                                sell_stock = parseFloat(sell_stock) - parseFloat(stock_fifo[sell_fifo_i]);
                             }
+                            // console.log('Last Stock[' + sell_fifo_i + '] = ' + stock_fifo[sell_fifo_i]);
                         }
                         sell_fifo_i++;
                     });
@@ -98,10 +106,13 @@ $(function () {
             var investment_capital = 0;
             sell_fifo_i = 0;
             $.each(stock_fifo, function(index_fifo, value_fifo){
+                // console.log('Investment: ' + parseFloat(investment_capital) + ' + ' + parseFloat(value_fifo) + ' X ' + parseFloat(price_fifo[sell_fifo_i]) + ' = ' + (parseFloat(investment_capital) + (parseFloat(value_fifo) * parseFloat(price_fifo[sell_fifo_i]))));
+                
                 investment_capital = parseFloat(investment_capital) + (parseFloat(value_fifo) * parseFloat(price_fifo[sell_fifo_i]));
                 sell_fifo_i++;
             });
             
+            // console.log('----------')
             table_trasnsaction += '</table>';
             table_trasnsaction += '<b>Investment Capital: ' + numberWithCommas(investment_capital.toFixed(0)) + ' IDR</b>';
             
