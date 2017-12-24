@@ -8,9 +8,12 @@ const numberWithCommas = (x) => {
 var update_idr_func;
 
 function update_idr_value(){
-    console.log('Update IDR Value');
+    // console.log('Update IDR Value');
+    $('.refresh-idr-value').prop('disabled', true);
+    $('.refresh-idr-value').html('(loading...)');
     $('#total-asset').val($('#idr-balance').val());
     
+    var count_update_idr_value = 0;
     $.each(list_of_currency, function( index, value ) {
         var request = $.ajax({
             url: "https://vip.bitcoin.co.id/api/" + value + "_idr/ticker",
@@ -19,17 +22,35 @@ function update_idr_value(){
         });
         
         request.done(function( msg ) {
-            var idr_value = parseFloat($('#qty_' + value).val() * msg.ticker.last);
-            idr_value = parseFloat(idr_value - (3/1000 * idr_value)).toFixed(0);
-            $('#total-asset').val(parseFloat($('#total-asset').val()) + parseFloat(idr_value));
+            count_update_idr_value++;
             
-            $('#idr_value_' + value).html(numberWithCommas(msg.ticker.last) + ' IDR');
-            $('#times_idr_value_' + value).html(numberWithCommas(idr_value) + ' IDR');      
-            $('#estimates_asset').html(numberWithCommas($('#total-asset').val()) + ' IDR');    
+            if (typeof msg.ticker !== 'undefined') {
+                var idr_value = parseFloat($('#qty_' + value).val() * msg.ticker.last);
+                idr_value = parseFloat(idr_value - (3/1000 * idr_value)).toFixed(0);
+                $('#total-asset').val(parseFloat($('#total-asset').val()) + parseFloat(idr_value));
+                
+                $('#idr_value_' + value).html(numberWithCommas(msg.ticker.last) + ' IDR');
+                $('#times_idr_value_' + value).html(numberWithCommas(idr_value) + ' IDR');      
+                $('#estimates_asset').html(numberWithCommas($('#total-asset').val()) + ' IDR');    
+            }else{
+                alert( "Update " + value + " IDR value failed. Probably because too much request in 1 minute.");
+            }
+            
+            console.log(list_of_currency.length + ' < ' + count_update_idr_value);
+            if(list_of_currency.length <= count_update_idr_value){
+                $('.refresh-idr-value').prop('disabled', false);
+                $('.refresh-idr-value').html('<span class="oi oi-reload"></span>');
+            }
         });
         
         request.fail(function( jqXHR, textStatus ) {
+            count_update_idr_value++;
             alert( "Update " + value + " IDR value failed: " + textStatus );
+            
+            if(list_of_currency.length <= count_update_idr_value){
+                $('.refresh-idr-value').prop('disabled', false);
+                $('.refresh-idr-value').html('<span class="oi oi-reload"></span>');
+            }
         });
     });
 }
@@ -38,6 +59,7 @@ function functionUpdateIDRValue() {
     update_idr_func = setInterval(update_idr_value, 20000);
 }
 functionUpdateIDRValue();
+update_idr_value();
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
@@ -127,5 +149,9 @@ $(function () {
         request.fail(function( jqXHR, textStatus ) {
             alert( "Get trade history failed: " + textStatus );
         });
-    })
-})
+    });
+    
+    $('.refresh-idr-value').on('click', function(){
+        update_idr_value();
+    });
+});

@@ -28,6 +28,9 @@ $list_of_currency = array();
 				if($requestUrl == 'dashboard'){
 					?>
 					<li class="nav-item bordered-right">
+						<button type="button" class="btn btn-dark refresh-idr-value" data-toggle="tooltip" data-placement="bottom" title="Refresh IDR value"><span class="oi oi-reload"></span></button>
+					</li>
+					<li class="nav-item bordered-right">
 						<a class="nav-link">
 							<input type="hidden" id="idr-balance" value="<?php echo isset($getInfo['return']['balance']['idr']) ? $getInfo['return']['balance']['idr'] : 0;?>">
 							<input type="hidden" id="total-asset" value="0">
