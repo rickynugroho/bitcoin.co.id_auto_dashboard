@@ -31,12 +31,13 @@ function update_idr_value(){
                 
                 $('#idr_value_' + value).html(numberWithCommas(msg.ticker.last) + ' IDR');
                 $('#times_idr_value_' + value).html(numberWithCommas(idr_value) + ' IDR');      
+                $('#hidden_idr_value_' + value).val(idr_value);      
                 $('#estimates_asset').html(numberWithCommas($('#total-asset').val()) + ' IDR');    
             }else{
                 alert( "Update " + value + " IDR value failed. Probably because too much request in 1 minute.");
             }
             
-            console.log(list_of_currency.length + ' < ' + count_update_idr_value);
+            // console.log(list_of_currency.length + ' < ' + count_update_idr_value);
             if(list_of_currency.length <= count_update_idr_value){
                 $('.refresh-idr-value').prop('disabled', false);
                 $('.refresh-idr-value').html('<span class="oi oi-reload"></span>');
@@ -142,6 +143,11 @@ $(function () {
             // console.log('----------')
             table_trasnsaction += '</table>';
             table_trasnsaction += '<b>Investment Capital: ' + numberWithCommas(investment_capital.toFixed(0)) + ' IDR</b>';
+            
+            var idr_value_number = $('#hidden_idr_value_' + str_currency).val();
+            console.log('#hidden_idr_value_' + str_currency);
+            table_trasnsaction += '<br><br>Current IDR Value: ' + numberWithCommas(idr_value_number) + ' IDR';
+            table_trasnsaction += '<br>Estimates Profit/Loss (%): <b>' + ((parseFloat(idr_value_number) - parseFloat(investment_capital.toFixed(0))) / parseFloat(investment_capital.toFixed(0)) * 100).toFixed(2) + ' %</b>';
             
             $('#transactionListModal .modal-body').html(table_trasnsaction);
         });

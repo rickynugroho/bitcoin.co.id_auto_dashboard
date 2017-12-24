@@ -22,6 +22,7 @@ if($account_info->enable_password_protection === '1' && (!isset($_SESSION["user_
 					<span id="idr_value_<?php echo $key;?>">(loading...)</span>
 					&nbsp; = &nbsp; 
 					<span id="times_idr_value_<?php echo $key;?>">(loading...)</span>
+					<input id="hidden_idr_value_<?php echo $key;?>" type="hidden" value="">
 					
 					<div class="float-right">
 						<button type="button" class="btn btn-dark refresh-frame" data-frame-id="<?php echo $key;?>idr_iframe" data-toggle="tooltip" data-placement="bottom" title="Refresh this frame"><span class="oi oi-reload"></span></button>
