@@ -196,6 +196,7 @@ $(function () {
                     table_pending += '</table>';
                 });
                 
+                if(table_pending == '') table_pending = 'No data.';
                 $('#pendingListModal .modal-body').html(table_pending);
             }else{
                 $('#pendingListModal .modal-body').html('No data.');
