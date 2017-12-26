@@ -41,6 +41,7 @@ function update_idr_value(){
             if(list_of_currency.length <= count_update_idr_value){
                 $('.refresh-idr-value').prop('disabled', false);
                 $('.refresh-idr-value').html('<span class="oi oi-reload"></span>');
+                // update_pending_orders();
             }
         });
         
@@ -57,7 +58,7 @@ function update_idr_value(){
 }
 
 function functionUpdateIDRValue() {
-    update_idr_func = setInterval(update_idr_value, 20000);
+    update_idr_func = setInterval(update_idr_value, 60000);
 }
 functionUpdateIDRValue();
 update_idr_value();
@@ -159,5 +160,54 @@ $(function () {
     
     $('.refresh-idr-value').on('click', function(){
         update_idr_value();
+    });
+    
+    $('#pendingListModal').on('show.bs.modal', function (e) {
+        $('#pendingListModal .modal-body').html('(loading...)');
+        
+        var request_pending = $.ajax({
+            url: 'index.php?method=openOrders',
+            method: "POST",
+            //data: {pair: value + '_idr'},
+            dataType: "json"
+        });
+        
+        request_pending.done(function( msg ) {
+            var table_pending = '';
+            
+            if(msg.success == 1){
+                $.each(msg.return.orders, function( index, value ) {
+                    var str_split = index.split('_');
+                    var str_currency = str_split[0];
+                    str_currency_upper = str_currency.toUpperCase();
+                    
+                    table_pending += '<h3>' + str_currency_upper + ' - IDR</h3><table class="table"><tr><td>Type</td><td>Order ID</td><td>Time</td><td>Price</td><td>Order IDR/' + str_currency_upper + '</td><td>Estimasi</td></tr>';
+                    
+                    $.each(value, function( index_row, value_row ) {
+                        if(value_row.type == 'buy'){
+                            // console.log('buy');
+                            table_pending += '<tr><td>' + value_row.type + '</td><td>' + value_row.order_id + '</td><td>' + moment.unix(value_row.submit_time).format("DD MMM YYYY HH:mm:ss") + '</td><td>' + numberWithCommas(value_row.price) + '</td><td>' + numberWithCommas(value_row.order_idr) + '</td><td>' + numberWithCommas((parseFloat(value_row.order_idr) / parseFloat(value_row.price)).toFixed(8)) + '</td><td></tr>';
+                        }else if(value_row.type == 'sell'){
+                            // console.log('sell');
+                            table_pending += '<tr><td>' + value_row.type + '</td><td>' + value_row.order_id + '</td><td>' + moment.unix(value_row.submit_time).format("DD MMM YYYY HH:mm:ss") + '</td><td>' + numberWithCommas(value_row.price) + '</td><td>' + numberWithCommas(value_row['order_' + str_currency]) + '</td><td>' + numberWithCommas((parseFloat(value_row['order_' + str_currency]) * parseFloat(value_row.price)).toFixed(0)) + '</td><td></tr>';
+                        }
+                    });
+                    
+                    table_pending += '</table>';
+                });
+                
+                $('#pendingListModal .modal-body').html(table_pending);
+            }else{
+                $('#pendingListModal .modal-body').html('No data.');
+            }
+        });
+        
+        request_pending.fail(function( jqXHR, textStatus ) {
+            alert( "Update " + value + " IDR value failed: " + textStatus );
+        });
+    });
+    
+    $('.pending-list-btn').on('click', function(){
+        $('#pendingListModal').modal('show');
     });
 });
