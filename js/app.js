@@ -58,7 +58,7 @@ function update_idr_value(){
 }
 
 function functionUpdateIDRValue() {
-    update_idr_func = setInterval(update_idr_value, 60000);
+    update_idr_func = setInterval(update_idr_value, 120000);
 }
 functionUpdateIDRValue();
 update_idr_value();
