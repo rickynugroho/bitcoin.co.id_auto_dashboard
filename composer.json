@@ -1,5 +1,6 @@
 {
     "require": {
-        "tmarois/filebase": "^1.0"
+        "tmarois/filebase": "^1.0",
+        "mobiledetect/mobiledetectlib": "^2.8"
     }
 }
