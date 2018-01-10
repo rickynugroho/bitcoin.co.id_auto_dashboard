@@ -1,5 +1,5 @@
 .navbar-brand{
-    font-size: 1.5em;
+    font-size: 1em;
 }
 
 .navbar-dark .navbar-nav .nav-link, .navbar-dark .navbar-nav .nav-link:hover{
@@ -7,13 +7,15 @@
 }
 
 .bordered-right{
-    border-right:1px solid #fff;
-    padding-right:10px;
-    margin-right:10px;
+    border-bottom:1px solid rgba(255, 255, 255, 0.1);;
+}
+
+.padding-nav{
+    padding-left:.75rem !important;
 }
 
 .boxed {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     padding: 10px;
     border: 1px solid #D0D0D0;
 }
@@ -43,4 +45,24 @@ code, .code-block {
 
 .input-fluid{
     border:0;
+}
+
+@media (min-width: 992px) {
+    .navbar-brand{
+        font-size: 1.5em;
+    }
+    
+    .bordered-right{
+        border-right:1px solid #fff;
+        padding-right:10px;
+        margin-right:10px;
+    }
+    
+    .padding-nav{
+        padding-left:20px;
+    }
+    
+    .boxed {
+        margin-bottom: 30px;    
+    }
 }

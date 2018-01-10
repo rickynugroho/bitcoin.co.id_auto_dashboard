@@ -15,17 +15,30 @@ if($account_info->enable_password_protection === '1' && (!isset($_SESSION["user_
 			?>
 			<div class="col-md-6 col-xs-12">
 				<div class="boxed">
-					<iframe id="<?php echo $key;?>idr_iframe" src="https://vip.bitcoin.co.id/chart/<?php echo $key;?>idr" style="width:100%;"></iframe>
+					<?php
+					$detect = new Mobile_Detect;
+					if(!$detect->isMobile()){
+						?>
+						<iframe id="<?php echo $key;?>idr_iframe" src="https://vip.bitcoin.co.id/chart/<?php echo $key;?>idr" style="width:100%;"></iframe>
+						<?php
+					}
+					?>
+					
 					<input type="hidden" id="qty_<?php echo $key;?>" value="<?php echo $val;?>">
 					<?php echo $val . ' ' . strtoupper($key);?> 
 					&nbsp; X &nbsp; 
 					<span id="idr_value_<?php echo $key;?>">(loading...)</span>
-					&nbsp; = &nbsp; 
+					<div class="clearfix d-block d-sm-none"></div>
+					<span class="d-none d-sm-inline">&nbsp; </span>= &nbsp; 
 					<span id="times_idr_value_<?php echo $key;?>">(loading...)</span>
 					<input id="hidden_idr_value_<?php echo $key;?>" type="hidden" value="">
 					
+					<div class="clearfix d-block d-sm-none"></div>
 					<div class="float-right">
-						<button type="button" class="btn btn-dark refresh-frame" data-frame-id="<?php echo $key;?>idr_iframe" data-toggle="tooltip" data-placement="bottom" title="Refresh this frame"><span class="oi oi-reload"></span></button>
+						<a class="btn btn-dark" href="https://vip.bitcoin.co.id/chart/<?php echo $key;?>idr" target="_blank" data-toggle="tooltip" data-placement="bottom" title="View Chart in Separate Page"><span class="oi oi-graph"></span></a>
+						
+						<button type="button" class="btn btn-dark refresh-frame d-none d-sm-inline" data-frame-id="<?php echo $key;?>idr_iframe" data-toggle="tooltip" data-placement="bottom" title="Refresh this frame"><span class="oi oi-reload"></span></button>
+						
 						<button type="button" class="btn btn-dark transaction-list-btn" data-pair="<?php echo $key;?>_idr" data-toggle="tooltip" data-placement="bottom" title="Transaction List"><span class="oi oi-clock"></span></button>
 					</div>
 					

@@ -34,14 +34,14 @@ $list_of_currency = array();
 						<button type="button" class="btn btn-dark pending-list-btn" data-toggle="tooltip" data-placement="bottom" title="Pending Order List"><span class="oi oi-media-pause"></span></button>
 					</li>
 					<li class="nav-item bordered-right">
-						<a class="nav-link">
+						<a class="nav-link padding-nav">
 							<input type="hidden" id="idr-balance" value="<?php echo isset($getInfo['return']['balance']['idr']) ? $getInfo['return']['balance']['idr'] : 0;?>">
 							<input type="hidden" id="total-asset" value="0">
 							<b>IDR: <span id="idr-wallet"><?php echo number_format(isset($getInfo['return']['balance']['idr']) ? $getInfo['return']['balance']['idr'] : 0);?></span></b>
 						</a>
 					</li>
 					<li class="nav-item bordered-right">
-						<a class="nav-link">Estimates Asset:  
+						<a class="nav-link padding-nav">Estimates Asset:  
 							<span id="estimates_asset">(loading...)</span>
 						</a>
 					</li>

@@ -93,7 +93,7 @@ $(function () {
         });
         
         request.done(function( msg ) {
-            var table_trasnsaction = '<table class="table"><tr><td>Time</td><td>Type</td><td>Price</td><td>' + str_currency_upper + '</td><td>IDR</td></tr>';
+            var table_trasnsaction = '<div class="table-responsive"><table class="table"><tr><td>Time</td><td>Type</td><td>Price</td><td>' + str_currency_upper + '</td><td>IDR</td></tr>';
             var stock_fifo = [];
             var price_fifo = [];
             var fifo_i = 0;
@@ -142,7 +142,7 @@ $(function () {
             });
             
             // console.log('----------')
-            table_trasnsaction += '</table>';
+            table_trasnsaction += '</table></div>';
             table_trasnsaction += '<b>Investment Capital: ' + numberWithCommas(investment_capital.toFixed(0)) + ' IDR</b>';
             
             var idr_value_number = $('#hidden_idr_value_' + str_currency).val();
@@ -181,7 +181,7 @@ $(function () {
                     var str_currency = str_split[0];
                     str_currency_upper = str_currency.toUpperCase();
                     
-                    table_pending += '<h3>' + str_currency_upper + ' - IDR</h3><table class="table"><tr><td>Type</td><td>Order ID</td><td>Time</td><td>Price</td><td>Order IDR/' + str_currency_upper + '</td><td>Estimasi</td></tr>';
+                    table_pending += '<h3>' + str_currency_upper + ' - IDR</h3><div class="table-responsive"><table class="table"><tr><td>Type</td><td>Order ID</td><td>Time</td><td>Price</td><td>Order IDR/' + str_currency_upper + '</td><td>Estimasi</td></tr>';
                     
                     $.each(value, function( index_row, value_row ) {
                         if(value_row.type == 'buy'){
@@ -193,7 +193,7 @@ $(function () {
                         }
                     });
                     
-                    table_pending += '</table>';
+                    table_pending += '</table></div>';
                 });
                 
                 if(table_pending == '') table_pending = 'No data.';
