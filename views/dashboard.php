@@ -19,7 +19,7 @@ if($account_info->enable_password_protection === '1' && (!isset($_SESSION["user_
 					$detect = new Mobile_Detect;
 					if(!$detect->isMobile()){
 						?>
-						<iframe id="<?php echo $key;?>idr_iframe" src="https://vip.bitcoin.co.id/chart/<?php echo $key;?>idr" style="width:100%;"></iframe>
+						<iframe id="<?php echo $key;?>idr_iframe" src="https://indodax.com/chart/<?php echo $key;?>idr" style="width:100%;"></iframe>
 						<?php
 					}
 					?>
@@ -35,7 +35,7 @@ if($account_info->enable_password_protection === '1' && (!isset($_SESSION["user_
 					
 					<div class="clearfix d-block d-sm-none"></div>
 					<div class="float-right">
-						<a class="btn btn-dark" href="https://vip.bitcoin.co.id/chart/<?php echo $key;?>idr" target="_blank" data-toggle="tooltip" data-placement="bottom" title="View Chart in Separate Page"><span class="oi oi-graph"></span></a>
+						<a class="btn btn-dark" href="https://indodax.com/chart/<?php echo $key;?>idr" target="_blank" data-toggle="tooltip" data-placement="bottom" title="View Chart in Separate Page"><span class="oi oi-graph"></span></a>
 						
 						<button type="button" class="btn btn-dark refresh-frame d-none d-sm-inline" data-frame-id="<?php echo $key;?>idr_iframe" data-toggle="tooltip" data-placement="bottom" title="Refresh this frame"><span class="oi oi-reload"></span></button>
 						
